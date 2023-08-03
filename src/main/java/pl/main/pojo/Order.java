@@ -2,14 +2,12 @@ package pl.main.pojo;
 
 public class Order {
 
-
     private Integer id;
     private Integer petId;
     private Integer quantity;
     private String shipDate;
     private String status;
     private Boolean complete;
-
 
     public Integer getId() {
         return id;
@@ -57,15 +55,4 @@ public class Order {
         this.complete = complete;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", petId=" + petId +
-                ", quantity=" + quantity +
-                ", shipDate='" + shipDate + '\'' +
-                ", status='" + status + '\'' +
-                ", complete=" + complete +
-                '}';
-    }
 }
