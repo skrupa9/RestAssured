@@ -18,9 +18,7 @@ public class GetOrder extends SuitTestBase {
 
     @Test
     public void shouldGetExistedOrder() {
-
         Order order = Cleaner.createOrder();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .pathParam("orderId", order.getId())
@@ -32,13 +30,11 @@ public class GetOrder extends SuitTestBase {
                     .assertThat().body("quantity", equalTo(order.getQuantity()))
                     .assertThat().body("status", equalTo(order.getStatus()))
                     .assertThat().body("complete", equalTo(order.isComplete()));
-
         Cleaner.deleteOrder(order);
     }
 
     @Test
     public void shouldNotGetNotExistedOrder() {
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .pathParam("orderId", 1001)

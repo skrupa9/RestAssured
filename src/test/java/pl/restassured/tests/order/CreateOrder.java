@@ -19,9 +19,7 @@ public class CreateOrder extends SuitTestBase {
 
     @Test
     public void shouldCreateOrderWithAllParameters() {
-
         Order order = new OrderBuilder().withAllData().build();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(order)
@@ -34,15 +32,12 @@ public class CreateOrder extends SuitTestBase {
                     .assertThat().body("quantity", equalTo(order.getQuantity()))
                     .assertThat().body("status", equalTo(order.getStatus()))
                     .assertThat().body("complete", equalTo(order.isComplete()));
-
         Cleaner.deleteOrder(order);
     }
 
     @Test
     public void shouldCreateOrderWithoutId() {
-
         Order order = new OrderBuilder().withAllData().build();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(order)
@@ -55,15 +50,12 @@ public class CreateOrder extends SuitTestBase {
                     .assertThat().body("quantity", equalTo(order.getQuantity()))
                     .assertThat().body("status", equalToIgnoringCase(order.getStatus()))
                     .assertThat().body("complete", equalTo(order.isComplete()));
-
         Cleaner.deleteOrder(order);
     }
 
     @Test
     public void shouldCreateOrderWithoutNotRequiredParameter() {
-
         Order order = new OrderBuilder().withAllData().build();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(order)
@@ -75,7 +67,6 @@ public class CreateOrder extends SuitTestBase {
                     .assertThat().body("quantity", equalTo(order.getQuantity()))
                     .assertThat().body("status", equalTo(order.getStatus()))
                     .assertThat().body("complete", equalTo(order.isComplete()));
-
         Cleaner.deleteOrder(order);
     }
 

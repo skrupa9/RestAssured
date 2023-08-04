@@ -18,9 +18,7 @@ public class DeleteOrder extends SuitTestBase {
 
     @Test
     public void shouldDeleteExistedOrder() {
-
         Order order = Cleaner.createOrder();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .pathParam("orderId", order.getId())
@@ -28,15 +26,13 @@ public class DeleteOrder extends SuitTestBase {
                 .delete(environmentConfig.deleteOrderPath())
                 .then().statusCode(HttpStatus.SC_OK)
                     .assertThat().body("code", equalTo(200))
-                    .assertThat().body("message", equalTo(order.getId()));
+                    .assertThat().body("message", equalTo(order.getId().toString()));
     }
 
     @Test
     public void shouldNotDeleteAlreadyDeletedOrder() {
-
         Order order = Cleaner.createOrder();
         Cleaner.deleteOrder(order);
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .pathParam("orderId", order.getId())
@@ -49,7 +45,6 @@ public class DeleteOrder extends SuitTestBase {
 
     @Test
     public void shouldNotDeleteNotExistedOrder() {
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .pathParam("orderId", 1)

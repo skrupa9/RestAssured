@@ -18,9 +18,7 @@ public class DeleteUser extends SuitTestBase {
 
     @Test
     public void shouldDeleteUserWithCorrectUserName() {
-
         User user = Cleaner.createUser();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .pathParam("username", user.getUsername())
@@ -34,25 +32,20 @@ public class DeleteUser extends SuitTestBase {
 
     @Test
     public void shouldNotDeleteUserWithIncorrectUserName() {
-
         User user = Cleaner.createUser();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .pathParam("username", "incorrectValue")
                 .when()
                 .delete(environmentConfig.deleteUserPath())
                 .then().statusCode(HttpStatus.SC_NOT_FOUND);
-
         Cleaner.deleteUser(user);
     }
 
     @Test
     public void shouldNotDeleteAlreadyDeletedUser() {
-
         User user = Cleaner.createUser();
         Cleaner.deleteUser(user);
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .pathParam("username", user.getUsername())

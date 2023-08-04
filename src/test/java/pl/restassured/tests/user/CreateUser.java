@@ -19,9 +19,7 @@ public class CreateUser extends SuitTestBase {
 
     @Test
     public void shouldCreateUserWithAllParameters() {
-
         User user = new UserBuilder().withAllData().build();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(user)
@@ -30,15 +28,12 @@ public class CreateUser extends SuitTestBase {
                 .then().statusCode(HttpStatus.SC_OK)
                     .assertThat().body("code", equalTo(200))
                     .assertThat().body("message", equalTo(user.getId().toString()));
-
         Cleaner.deleteUser(user);
     }
 
     @Test
     public void shouldCreateUserWithoutId() {
-
         User user = new UserBuilder().withoutId().build();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(user)
@@ -46,15 +41,12 @@ public class CreateUser extends SuitTestBase {
                 .post(environmentConfig.createUserPath())
                 .then().statusCode(HttpStatus.SC_OK)
                     .assertThat().body("code", equalTo(200));
-
         Cleaner.deleteUser(user);
     }
 
     @Test
     public void shouldCreateUserWithoutUserName() {
-
         User user = new UserBuilder().withoutFirstName().build();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(user)
@@ -63,15 +55,12 @@ public class CreateUser extends SuitTestBase {
                 .then().statusCode(HttpStatus.SC_OK)
                     .assertThat().body("code", equalTo(200))
                     .assertThat().body("message", equalTo(user.getId().toString()));
-
         Cleaner.deleteUser(user);
     }
 
     @Test
     public void shouldCreateUserWithUserNameOnly() {
-
         User user = new UserBuilder().withUserName().build();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(user)
@@ -79,7 +68,6 @@ public class CreateUser extends SuitTestBase {
                 .post(environmentConfig.createUserPath())
                 .then().statusCode(HttpStatus.SC_OK)
                     .assertThat().body("code", equalTo(200));
-
         Cleaner.deleteUser(user);
     }
 

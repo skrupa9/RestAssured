@@ -19,10 +19,8 @@ public class UpdateUser extends SuitTestBase {
 
     @Test
     public void shouldUpdateUserWithCorrectUserName() {
-
         User createdUser = Cleaner.createUser();
         User updatedUser = new UserBuilder().withAllData().withUserName(createdUser.getUsername()).build();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(updatedUser)
@@ -32,16 +30,13 @@ public class UpdateUser extends SuitTestBase {
                 .then().statusCode(HttpStatus.SC_OK)
                     .assertThat().body("code", equalTo(200))
                     .assertThat().body("type", equalTo("uknown"));
-
         Cleaner.deleteUser(createdUser);
     }
 
     @Test
     public void shouldNotUpdateUserWithIncorrectUserName() {
-
         User createdUser = Cleaner.createUser();
         User updatedUser = new UserBuilder().withAllData().withUserName(createdUser.getUsername()).build();
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(updatedUser)
@@ -49,17 +44,14 @@ public class UpdateUser extends SuitTestBase {
                 .when()
                 .put(environmentConfig.updateUserPath())
                 .then().statusCode(HttpStatus.SC_NOT_FOUND); // Błąd API - powinno zwracać 404, ale zwraca 200
-
         Cleaner.deleteUser(createdUser);
     }
 
     @Test
     public void shouldNotUpdateUserWithoutBody() {
-
         User createdUser = Cleaner.createUser();
         User emptyBody = new User();
         emptyBody.setUsername(createdUser.getUsername());
-
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(emptyBody)
@@ -67,7 +59,6 @@ public class UpdateUser extends SuitTestBase {
                 .when()
                 .put(environmentConfig.updateUserPath())
                 .then().statusCode(HttpStatus.SC_NOT_FOUND); // Błąd API - powinno zwracać 404, ale zwraca 200
-
         Cleaner.deleteUser(createdUser);
     }
 
