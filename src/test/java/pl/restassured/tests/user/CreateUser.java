@@ -7,6 +7,7 @@ import pl.main.builders.UserBuilder;
 import pl.main.pojo.User;
 import pl.main.cleaner.Cleaner;
 import pl.main.properties.EnvironmentConfig;
+import pl.main.readfile.ReadFile;
 import pl.main.request.configuration.RequestConfigurationBuilder;
 import pl.restassured.tests.SuitTestBase;
 
@@ -22,12 +23,13 @@ public class CreateUser extends SuitTestBase {
         User user = new UserBuilder().withAllData().build();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .body(user)
-                .when()
-                .post(environmentConfig.createUserPath())
-                .then().statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("code", equalTo(200))
-                    .assertThat().body("message", equalTo(user.getId().toString()));
+                .body(user).
+        when()
+                .post(environmentConfig.createUserPath()).
+        then()
+                .statusCode(HttpStatus.SC_OK)
+                .assertThat().body("code", equalTo(200))
+                .assertThat().body("message", equalTo(user.getId().toString()));
         Cleaner.deleteUser(user);
     }
 
@@ -36,11 +38,12 @@ public class CreateUser extends SuitTestBase {
         User user = new UserBuilder().withoutId().build();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .body(user)
-                .when()
-                .post(environmentConfig.createUserPath())
-                .then().statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("code", equalTo(200));
+                .body(user).
+        when()
+                .post(environmentConfig.createUserPath()).
+        then()
+                .statusCode(HttpStatus.SC_OK)
+                .assertThat().body("code", equalTo(200));
         Cleaner.deleteUser(user);
     }
 
@@ -49,12 +52,13 @@ public class CreateUser extends SuitTestBase {
         User user = new UserBuilder().withoutFirstName().build();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .body(user)
-                .when()
-                .post(environmentConfig.createUserPath())
-                .then().statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("code", equalTo(200))
-                    .assertThat().body("message", equalTo(user.getId().toString()));
+                .body(user).
+        when()
+                .post(environmentConfig.createUserPath()).
+        then()
+                .statusCode(HttpStatus.SC_OK)
+                .assertThat().body("code", equalTo(200))
+                .assertThat().body("message", equalTo(user.getId().toString()));
         Cleaner.deleteUser(user);
     }
 
@@ -63,11 +67,27 @@ public class CreateUser extends SuitTestBase {
         User user = new UserBuilder().withUserName().build();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .body(user)
-                .when()
-                .post(environmentConfig.createUserPath())
-                .then().statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("code", equalTo(200));
+                .body(user).
+        when()
+                .post(environmentConfig.createUserPath()).
+        then()
+                .statusCode(HttpStatus.SC_OK)
+                .assertThat().body("code", equalTo(200));
+        Cleaner.deleteUser(user);
+    }
+
+    @Test
+    public void shouldCreateUserWithDataFromFile() {
+        User user = ReadFile.getUserData();
+        given()
+                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
+                .body(user).
+        when()
+                .post(environmentConfig.createUserPath()).
+        then()
+                .statusCode(HttpStatus.SC_OK)
+                .assertThat().body("code", equalTo(200))
+                .assertThat().body("message", equalTo(user.getId().toString()));
         Cleaner.deleteUser(user);
     }
 

@@ -21,13 +21,13 @@ public class DeleteUser extends SuitTestBase {
         User user = Cleaner.createUser();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .pathParam("username", user.getUsername())
-                .when()
-                .delete(environmentConfig.deleteUserPath())
-                .then()
+                .pathParam("username", user.getUsername()).
+        when()
+                .delete(environmentConfig.deleteUserPath()).
+        then()
                 .statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("code", equalTo(200))
-                    .assertThat().body("message", equalTo(user.getUsername()));
+                .assertThat().body("code", equalTo(200))
+                .assertThat().body("message", equalTo(user.getUsername()));
     }
 
     @Test
@@ -35,10 +35,11 @@ public class DeleteUser extends SuitTestBase {
         User user = Cleaner.createUser();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .pathParam("username", "incorrectValue")
-                .when()
-                .delete(environmentConfig.deleteUserPath())
-                .then().statusCode(HttpStatus.SC_NOT_FOUND);
+                .pathParam("username", "incorrectValue").
+        when()
+                .delete(environmentConfig.deleteUserPath()).
+        then()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
         Cleaner.deleteUser(user);
     }
 
@@ -48,10 +49,11 @@ public class DeleteUser extends SuitTestBase {
         Cleaner.deleteUser(user);
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .pathParam("username", user.getUsername())
-                .when()
-                .delete(environmentConfig.deleteUserPath())
-                .then().statusCode(HttpStatus.SC_NOT_FOUND);
+                .pathParam("username", user.getUsername()).
+        when()
+                .delete(environmentConfig.deleteUserPath()).
+        then()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
 }

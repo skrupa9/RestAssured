@@ -28,4 +28,10 @@ public interface EnvironmentConfig extends Config{
 
     @Key("DELETE_ORDER_PATH")
     String deleteOrderPath();
+
+    @Key("ORDER_DATA_PATH")
+    String getOrderDataPath();
+
+    @Key("USER_DATA_PATH")
+    String getUserDataPath();
 }

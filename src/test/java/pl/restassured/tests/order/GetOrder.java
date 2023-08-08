@@ -21,15 +21,16 @@ public class GetOrder extends SuitTestBase {
         Order order = Cleaner.createOrder();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .pathParam("orderId", order.getId())
-                .when()
-                .get(environmentConfig.getOrderPath())
-                .then().statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("id", equalTo(order.getId()))
-                    .assertThat().body("petId", equalTo(order.getPetId()))
-                    .assertThat().body("quantity", equalTo(order.getQuantity()))
-                    .assertThat().body("status", equalTo(order.getStatus()))
-                    .assertThat().body("complete", equalTo(order.isComplete()));
+                .pathParam("orderId", order.getId()).
+        when()
+                .get(environmentConfig.getOrderPath()).
+        then()
+                .statusCode(HttpStatus.SC_OK)
+                .assertThat().body("id", equalTo(order.getId()))
+                .assertThat().body("petId", equalTo(order.getPetId()))
+                .assertThat().body("quantity", equalTo(order.getQuantity()))
+                .assertThat().body("status", equalTo(order.getStatus()))
+                .assertThat().body("complete", equalTo(order.isComplete()));
         Cleaner.deleteOrder(order);
     }
 
@@ -37,13 +38,14 @@ public class GetOrder extends SuitTestBase {
     public void shouldNotGetNotExistedOrder() {
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .pathParam("orderId", 1001)
-                .when()
-                .get(environmentConfig.getOrderPath())
-                .then().statusCode(HttpStatus.SC_NOT_FOUND)
-                    .assertThat().body("code", equalTo(1))
-                    .assertThat().body("type", containsString("error"))
-                    .assertThat().body("message", containsString("Order not found"));
+                .pathParam("orderId", 1001).
+        when()
+                .get(environmentConfig.getOrderPath()).
+        then()
+                .statusCode(HttpStatus.SC_NOT_FOUND)
+                .assertThat().body("code", equalTo(1))
+                .assertThat().body("type", containsString("error"))
+                .assertThat().body("message", containsString("Order not found"));
     }
 
 }

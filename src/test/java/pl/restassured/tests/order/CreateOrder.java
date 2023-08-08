@@ -7,6 +7,7 @@ import pl.main.cleaner.Cleaner;
 import pl.main.pojo.Order;
 import org.apache.http.HttpStatus;
 import pl.main.properties.EnvironmentConfig;
+import pl.main.readfile.ReadFile;
 import pl.main.request.configuration.RequestConfigurationBuilder;
 import pl.restassured.tests.SuitTestBase;
 
@@ -22,16 +23,16 @@ public class CreateOrder extends SuitTestBase {
         Order order = new OrderBuilder().withAllData().build();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .body(order)
-                .when()
-                .post(environmentConfig.createOrderPath())
-                .then()
+                .body(order).
+        when()
+                .post(environmentConfig.createOrderPath()).
+        then()
                 .statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("id", equalTo(order.getId()))
-                    .assertThat().body("petId", equalTo(order.getPetId()))
-                    .assertThat().body("quantity", equalTo(order.getQuantity()))
-                    .assertThat().body("status", equalTo(order.getStatus()))
-                    .assertThat().body("complete", equalTo(order.isComplete()));
+                .assertThat().body("id", equalTo(order.getId()))
+                .assertThat().body("petId", equalTo(order.getPetId()))
+                .assertThat().body("quantity", equalTo(order.getQuantity()))
+                .assertThat().body("status", equalTo(order.getStatus()))
+                .assertThat().body("complete", equalTo(order.isComplete()));
         Cleaner.deleteOrder(order);
     }
 
@@ -40,16 +41,16 @@ public class CreateOrder extends SuitTestBase {
         Order order = new OrderBuilder().withAllData().build();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .body(order)
-                .when()
-                .post(environmentConfig.createOrderPath())
-                .then()
+                .body(order).
+        when()
+                .post(environmentConfig.createOrderPath()).
+        then()
                 .statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("id", equalTo(order.getId()))
-                    .assertThat().body("petId", equalTo(order.getPetId()))
-                    .assertThat().body("quantity", equalTo(order.getQuantity()))
-                    .assertThat().body("status", equalToIgnoringCase(order.getStatus()))
-                    .assertThat().body("complete", equalTo(order.isComplete()));
+                .assertThat().body("id", equalTo(order.getId()))
+                .assertThat().body("petId", equalTo(order.getPetId()))
+                .assertThat().body("quantity", equalTo(order.getQuantity()))
+                .assertThat().body("status", equalToIgnoringCase(order.getStatus()))
+                .assertThat().body("complete", equalTo(order.isComplete()));
         Cleaner.deleteOrder(order);
     }
 
@@ -58,15 +59,33 @@ public class CreateOrder extends SuitTestBase {
         Order order = new OrderBuilder().withAllData().build();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .body(order)
-                .when()
+                .body(order).
+        when()
                 .post(environmentConfig.createOrderPath()).
-                then()
+        then()
                 .statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("petId", equalTo(order.getPetId()))
-                    .assertThat().body("quantity", equalTo(order.getQuantity()))
-                    .assertThat().body("status", equalTo(order.getStatus()))
-                    .assertThat().body("complete", equalTo(order.isComplete()));
+                .assertThat().body("petId", equalTo(order.getPetId()))
+                .assertThat().body("quantity", equalTo(order.getQuantity()))
+                .assertThat().body("status", equalTo(order.getStatus()))
+                .assertThat().body("complete", equalTo(order.isComplete()));
+        Cleaner.deleteOrder(order);
+    }
+
+    @Test
+    public void shouldCreateOrderWithDataFromFile() {
+        Order order = ReadFile.getOrderData();
+        given()
+                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
+                .body(order).
+        when()
+                .post(environmentConfig.createOrderPath()).
+        then()
+                .statusCode(HttpStatus.SC_OK)
+                .assertThat().body("id", equalTo(order.getId()))
+                .assertThat().body("petId", equalTo(order.getPetId()))
+                .assertThat().body("quantity", equalTo(order.getQuantity()))
+                .assertThat().body("status", equalTo(order.getStatus()))
+                .assertThat().body("complete", equalTo(order.isComplete()));
         Cleaner.deleteOrder(order);
     }
 

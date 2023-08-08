@@ -21,12 +21,13 @@ public class DeleteOrder extends SuitTestBase {
         Order order = Cleaner.createOrder();
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .pathParam("orderId", order.getId())
-                .when()
-                .delete(environmentConfig.deleteOrderPath())
-                .then().statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("code", equalTo(200))
-                    .assertThat().body("message", equalTo(order.getId().toString()));
+                .pathParam("orderId", order.getId()).
+        when()
+                .delete(environmentConfig.deleteOrderPath()).
+        then()
+                .statusCode(HttpStatus.SC_OK)
+                .assertThat().body("code", equalTo(200))
+                .assertThat().body("message", equalTo(order.getId().toString()));
     }
 
     @Test
@@ -35,25 +36,27 @@ public class DeleteOrder extends SuitTestBase {
         Cleaner.deleteOrder(order);
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .pathParam("orderId", order.getId())
-                .when()
-                .delete(environmentConfig.deleteOrderPath())
-                .then().statusCode(HttpStatus.SC_NOT_FOUND)
-                    .assertThat().body("code", equalTo(404))
-                    .assertThat().body("message", equalToIgnoringCase("Order Not Found"));
+                .pathParam("orderId", order.getId()).
+        when()
+                .delete(environmentConfig.deleteOrderPath()).
+        then()
+                .statusCode(HttpStatus.SC_NOT_FOUND)
+                .assertThat().body("code", equalTo(404))
+                .assertThat().body("message", equalToIgnoringCase("Order Not Found"));
     }
 
     @Test
     public void shouldNotDeleteNotExistedOrder() {
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .pathParam("orderId", 1)
-                .when()
-                .delete(environmentConfig.deleteOrderPath())
-                .then().statusCode(HttpStatus.SC_NOT_FOUND)
-                    .assertThat().body("code", equalTo(404))
-                    .assertThat().body("type", equalToIgnoringCase("unknown"))
-                    .assertThat().body("message", equalToIgnoringCase("Order Not Found"));
+                .pathParam("orderId", 1).
+        when()
+                .delete(environmentConfig.deleteOrderPath()).
+        then()
+                .statusCode(HttpStatus.SC_NOT_FOUND)
+                .assertThat().body("code", equalTo(404))
+                .assertThat().body("type", equalToIgnoringCase("unknown"))
+                .assertThat().body("message", equalToIgnoringCase("Order Not Found"));
     }
 
 }

@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import pl.main.builders.UserBuilder;
 import pl.main.cleaner.Cleaner;
 import pl.main.properties.EnvironmentConfig;
+import pl.main.readfile.ReadFile;
 import pl.main.request.configuration.RequestConfigurationBuilder;
 import pl.restassured.tests.SuitTestBase;
 import pl.main.pojo.User;
@@ -24,12 +25,13 @@ public class UpdateUser extends SuitTestBase {
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(updatedUser)
-                .pathParam("username", updatedUser.getUsername())
-                .when()
-                .put(environmentConfig.updateUserPath())
-                .then().statusCode(HttpStatus.SC_OK)
-                    .assertThat().body("code", equalTo(200))
-                    .assertThat().body("type", equalTo("uknown"));
+                .pathParam("username", updatedUser.getUsername()).
+        when()
+                .put(environmentConfig.updateUserPath()).
+        then()
+                .statusCode(HttpStatus.SC_OK)
+                .assertThat().body("code", equalTo(200))
+                .assertThat().body("type", equalTo("unknown"));
         Cleaner.deleteUser(createdUser);
     }
 
@@ -40,10 +42,11 @@ public class UpdateUser extends SuitTestBase {
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(updatedUser)
-                .pathParam("username", "incorrectValue")
-                .when()
-                .put(environmentConfig.updateUserPath())
-                .then().statusCode(HttpStatus.SC_NOT_FOUND); // Błąd API - powinno zwracać 404, ale zwraca 200
+                .pathParam("username", "incorrectValue").
+        when()
+                .put(environmentConfig.updateUserPath()).
+        then()
+                .statusCode(HttpStatus.SC_NOT_FOUND); // Błąd API - powinno zwracać 404, ale zwraca 200
         Cleaner.deleteUser(createdUser);
     }
 
@@ -55,10 +58,28 @@ public class UpdateUser extends SuitTestBase {
         given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(emptyBody)
-                .pathParam("username", emptyBody.getUsername())
-                .when()
-                .put(environmentConfig.updateUserPath())
-                .then().statusCode(HttpStatus.SC_NOT_FOUND); // Błąd API - powinno zwracać 404, ale zwraca 200
+                .pathParam("username", emptyBody.getUsername()).
+        when()
+                .put(environmentConfig.updateUserPath()).
+        then()
+                .statusCode(HttpStatus.SC_NOT_FOUND); // Błąd API - powinno zwracać 404, ale zwraca 200
+        Cleaner.deleteUser(createdUser);
+    }
+
+    @Test
+    public void shouldUpdateUserWithDataFromFile() {
+        User createdUser = Cleaner.createUser();
+        User updatedUser = ReadFile.getUserData();
+        given()
+                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
+                .body(updatedUser)
+                .pathParam("username", updatedUser.getUsername()).
+                when()
+                .put(environmentConfig.updateUserPath()).
+                then()
+                .statusCode(HttpStatus.SC_OK)
+                .assertThat().body("code", equalTo(200))
+                .assertThat().body("type", equalTo("unknown"));
         Cleaner.deleteUser(createdUser);
     }
 
