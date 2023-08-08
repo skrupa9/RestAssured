@@ -74,9 +74,9 @@ public class UpdateUser extends SuitTestBase {
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(updatedUser)
                 .pathParam("username", updatedUser.getUsername()).
-                when()
+        when()
                 .put(environmentConfig.updateUserPath()).
-                then()
+        then()
                 .statusCode(HttpStatus.SC_OK)
                 .assertThat().body("code", equalTo(200))
                 .assertThat().body("type", equalTo("unknown"));
